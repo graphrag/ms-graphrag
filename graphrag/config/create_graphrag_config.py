@@ -13,8 +13,7 @@ from environs import Env
 from pydantic import TypeAdapter
 
 import graphrag.config.defaults as defs
-
-from .enums import (
+from graphrag.config.enums import (
     CacheType,
     InputFileType,
     InputType,
@@ -23,38 +22,37 @@ from .enums import (
     StorageType,
     TextEmbeddingTarget,
 )
-from .environment_reader import EnvironmentReader
-from .errors import (
+from graphrag.config.environment_reader import EnvironmentReader
+from graphrag.config.errors import (
     ApiKeyMissingError,
     AzureApiBaseMissingError,
     AzureDeploymentNameMissingError,
 )
-from .input_models import (
-    GraphRagConfigInput,
-    LLMConfigInput,
-)
-from .models import (
-    CacheConfig,
-    ChunkingConfig,
-    ClaimExtractionConfig,
-    ClusterGraphConfig,
-    CommunityReportsConfig,
-    EmbedGraphConfig,
-    EntityExtractionConfig,
-    GlobalSearchConfig,
-    GraphRagConfig,
-    InputConfig,
-    LLMParameters,
-    LocalSearchConfig,
-    ParallelizationParameters,
-    ReportingConfig,
-    SnapshotsConfig,
-    StorageConfig,
+from graphrag.config.input_models.graphrag_config_input import GraphRagConfigInput
+from graphrag.config.input_models.llm_config_input import LLMConfigInput
+from graphrag.config.models.cache_config import CacheConfig
+from graphrag.config.models.chunking_config import ChunkingConfig
+from graphrag.config.models.claim_extraction_config import ClaimExtractionConfig
+from graphrag.config.models.cluster_graph_config import ClusterGraphConfig
+from graphrag.config.models.community_reports_config import CommunityReportsConfig
+from graphrag.config.models.drift_search_config import DRIFTSearchConfig
+from graphrag.config.models.embed_graph_config import EmbedGraphConfig
+from graphrag.config.models.entity_extraction_config import EntityExtractionConfig
+from graphrag.config.models.global_search_config import GlobalSearchConfig
+from graphrag.config.models.graph_rag_config import GraphRagConfig
+from graphrag.config.models.input_config import InputConfig
+from graphrag.config.models.llm_parameters import LLMParameters
+from graphrag.config.models.local_search_config import LocalSearchConfig
+from graphrag.config.models.parallelization_parameters import ParallelizationParameters
+from graphrag.config.models.reporting_config import ReportingConfig
+from graphrag.config.models.snapshots_config import SnapshotsConfig
+from graphrag.config.models.storage_config import StorageConfig
+from graphrag.config.models.summarize_descriptions_config import (
     SummarizeDescriptionsConfig,
-    TextEmbeddingConfig,
-    UmapConfig,
 )
-from .read_dotenv import read_dotenv
+from graphrag.config.models.text_embedding_config import TextEmbeddingConfig
+from graphrag.config.models.umap_config import UmapConfig
+from graphrag.config.read_dotenv import read_dotenv
 
 InputModelValidator = TypeAdapter(GraphRagConfigInput)
 
@@ -83,10 +81,7 @@ def create_graphrag_config(
             llm_type = LLMType(llm_type) if llm_type else base.type
             api_key = reader.str(Fragment.api_key) or base.api_key
             api_base = reader.str(Fragment.api_base) or base.api_base
-            cognitive_services_endpoint = (
-                reader.str(Fragment.cognitive_services_endpoint)
-                or base.cognitive_services_endpoint
-            )
+            audience = reader.str(Fragment.audience) or base.audience
             deployment_name = (
                 reader.str(Fragment.deployment_name) or base.deployment_name
             )
@@ -119,7 +114,7 @@ def create_graphrag_config(
                 or base.model_supports_json,
                 request_timeout=reader.float(Fragment.request_timeout)
                 or base.request_timeout,
-                cognitive_services_endpoint=cognitive_services_endpoint,
+                audience=audience,
                 deployment_name=deployment_name,
                 tokens_per_minute=reader.int("tokens_per_minute", Fragment.tpm)
                 or base.tokens_per_minute,
@@ -141,7 +136,7 @@ def create_graphrag_config(
             api_type = LLMType(api_type) if api_type else defs.LLM_TYPE
             api_key = reader.str(Fragment.api_key) or base.api_key
 
-            # In a unique events where:
+            # Account for various permutations of config settings such as:
             # - same api_bases for LLM and embeddings (both Azure)
             # - different api_bases for LLM and embeddings (both Azure)
             # - LLM uses Azure OpenAI, while embeddings uses base OpenAI (this one is important)
@@ -158,10 +153,7 @@ def create_graphrag_config(
             )
             api_organization = reader.str("organization") or base.organization
             api_proxy = reader.str("proxy") or base.proxy
-            cognitive_services_endpoint = (
-                reader.str(Fragment.cognitive_services_endpoint)
-                or base.cognitive_services_endpoint
-            )
+            audience = reader.str(Fragment.audience) or base.audience
             deployment_name = reader.str(Fragment.deployment_name)
 
             if api_key is None and not _is_azure(api_type):
@@ -186,7 +178,7 @@ def create_graphrag_config(
                 model=reader.str(Fragment.model) or defs.EMBEDDING_MODEL,
                 request_timeout=reader.float(Fragment.request_timeout)
                 or defs.LLM_REQUEST_TIMEOUT,
-                cognitive_services_endpoint=cognitive_services_endpoint,
+                audience=audience,
                 deployment_name=deployment_name,
                 tokens_per_minute=reader.int("tokens_per_minute", Fragment.tpm)
                 or defs.LLM_TOKENS_PER_MINUTE,
@@ -237,9 +229,7 @@ def create_graphrag_config(
                 api_base = reader.str(Fragment.api_base) or fallback_oai_base
                 api_version = reader.str(Fragment.api_version) or fallback_oai_version
                 api_proxy = reader.str(Fragment.api_proxy) or fallback_oai_proxy
-                cognitive_services_endpoint = reader.str(
-                    Fragment.cognitive_services_endpoint
-                )
+                audience = reader.str(Fragment.audience)
                 deployment_name = reader.str(Fragment.deployment_name)
 
                 if api_key is None and not _is_azure(llm_type):
@@ -270,7 +260,7 @@ def create_graphrag_config(
                     model_supports_json=reader.bool(Fragment.model_supports_json),
                     request_timeout=reader.float(Fragment.request_timeout)
                     or defs.LLM_REQUEST_TIMEOUT,
-                    cognitive_services_endpoint=cognitive_services_endpoint,
+                    audience=audience,
                     deployment_name=deployment_name,
                     tokens_per_minute=reader.int(Fragment.tpm)
                     or defs.LLM_TOKENS_PER_MINUTE,
@@ -294,13 +284,15 @@ def create_graphrag_config(
         embeddings_config = values.get("embeddings") or {}
         with reader.envvar_prefix(Section.embedding), reader.use(embeddings_config):
             embeddings_target = reader.str("target")
+            # TODO: remove the type ignore annotations below once the new config engine has been refactored
             embeddings_model = TextEmbeddingConfig(
-                llm=hydrate_embeddings_params(embeddings_config, llm_model),
+                llm=hydrate_embeddings_params(embeddings_config, llm_model),  # type: ignore
                 parallelization=hydrate_parallelization_params(
-                    embeddings_config, llm_parallelization_model
+                    embeddings_config,  # type: ignore
+                    llm_parallelization_model,  # type: ignore
                 ),
                 vector_store=embeddings_config.get("vector_store", None),
-                async_mode=hydrate_async_type(embeddings_config, async_mode),
+                async_mode=hydrate_async_type(embeddings_config, async_mode),  # type: ignore
                 target=(
                     TextEmbeddingTarget(embeddings_target)
                     if embeddings_target
@@ -381,12 +373,35 @@ def create_graphrag_config(
                 container_name=reader.str(Fragment.container_name),
                 base_dir=reader.str(Fragment.base_dir) or defs.STORAGE_BASE_DIR,
             )
+
+        with (
+            reader.envvar_prefix(Section.update_index_storage),
+            reader.use(values.get("update_index_storage")),
+        ):
+            s_type = reader.str(Fragment.type)
+            if s_type:
+                update_index_storage_model = StorageConfig(
+                    type=StorageType(s_type) if s_type else defs.STORAGE_TYPE,
+                    connection_string=reader.str(Fragment.conn_string),
+                    storage_account_blob_url=reader.str(
+                        Fragment.storage_account_blob_url
+                    ),
+                    container_name=reader.str(Fragment.container_name),
+                    base_dir=reader.str(Fragment.base_dir)
+                    or defs.UPDATE_STORAGE_BASE_DIR,
+                )
+            else:
+                update_index_storage_model = None
         with reader.envvar_prefix(Section.chunk), reader.use(values.get("chunks")):
+            group_by_columns = reader.list("group_by_columns", "BY_COLUMNS")
+            if group_by_columns is None:
+                group_by_columns = defs.CHUNK_GROUP_BY_COLUMNS
+
             chunks_model = ChunkingConfig(
                 size=reader.int("size") or defs.CHUNK_SIZE,
                 overlap=reader.int("overlap") or defs.CHUNK_OVERLAP,
-                group_by_columns=reader.list("group_by_columns", "BY_COLUMNS")
-                or defs.CHUNK_GROUP_BY_COLUMNS,
+                group_by_columns=group_by_columns,
+                encoding_model=reader.str(Fragment.encoding_model),
             )
         with (
             reader.envvar_prefix(Section.snapshot),
@@ -397,6 +412,8 @@ def create_graphrag_config(
                 raw_entities=reader.bool("raw_entities") or defs.SNAPSHOTS_RAW_ENTITIES,
                 top_level_nodes=reader.bool("top_level_nodes")
                 or defs.SNAPSHOTS_TOP_LEVEL_NODES,
+                embeddings=reader.bool("embeddings") or defs.SNAPSHOTS_EMBEDDINGS,
+                transient=reader.bool("transient") or defs.SNAPSHOTS_TRANSIENT,
             )
         with reader.envvar_prefix(Section.umap), reader.use(values.get("umap")):
             umap_model = UmapConfig(
@@ -408,6 +425,13 @@ def create_graphrag_config(
             reader.envvar_prefix(Section.entity_extraction),
             reader.use(entity_extraction_config),
         ):
+            max_gleanings = reader.int(Fragment.max_gleanings)
+            max_gleanings = (
+                max_gleanings
+                if max_gleanings is not None
+                else defs.ENTITY_EXTRACTION_MAX_GLEANINGS
+            )
+
             entity_extraction_model = EntityExtractionConfig(
                 llm=hydrate_llm_params(entity_extraction_config, llm_model),
                 parallelization=hydrate_parallelization_params(
@@ -416,9 +440,10 @@ def create_graphrag_config(
                 async_mode=hydrate_async_type(entity_extraction_config, async_mode),
                 entity_types=reader.list("entity_types")
                 or defs.ENTITY_EXTRACTION_ENTITY_TYPES,
-                max_gleanings=reader.int(Fragment.max_gleanings)
-                or defs.ENTITY_EXTRACTION_MAX_GLEANINGS,
+                max_gleanings=max_gleanings,
                 prompt=reader.str("prompt", Fragment.prompt_file),
+                strategy=entity_extraction_config.get("strategy"),
+                encoding_model=reader.str(Fragment.encoding_model),
             )
 
         claim_extraction_config = values.get("claim_extraction") or {}
@@ -426,6 +451,10 @@ def create_graphrag_config(
             reader.envvar_prefix(Section.claim_extraction),
             reader.use(claim_extraction_config),
         ):
+            max_gleanings = reader.int(Fragment.max_gleanings)
+            max_gleanings = (
+                max_gleanings if max_gleanings is not None else defs.CLAIM_MAX_GLEANINGS
+            )
             claim_extraction_model = ClaimExtractionConfig(
                 enabled=reader.bool(Fragment.enabled) or defs.CLAIM_EXTRACTION_ENABLED,
                 llm=hydrate_llm_params(claim_extraction_config, llm_model),
@@ -435,8 +464,8 @@ def create_graphrag_config(
                 async_mode=hydrate_async_type(claim_extraction_config, async_mode),
                 description=reader.str("description") or defs.CLAIM_DESCRIPTION,
                 prompt=reader.str("prompt", Fragment.prompt_file),
-                max_gleanings=reader.int(Fragment.max_gleanings)
-                or defs.CLAIM_MAX_GLEANINGS,
+                max_gleanings=max_gleanings,
+                encoding_model=reader.str(Fragment.encoding_model),
             )
 
         community_report_config = values.get("community_reports") or {}
@@ -483,6 +512,7 @@ def create_graphrag_config(
             reader.envvar_prefix(Section.local_search),
         ):
             local_search_model = LocalSearchConfig(
+                prompt=reader.str("prompt") or None,
                 text_unit_prop=reader.float("text_unit_prop")
                 or defs.LOCAL_SEARCH_TEXT_UNIT_PROP,
                 community_prop=reader.float("community_prop")
@@ -510,6 +540,9 @@ def create_graphrag_config(
             reader.envvar_prefix(Section.global_search),
         ):
             global_search_model = GlobalSearchConfig(
+                map_prompt=reader.str("map_prompt") or None,
+                reduce_prompt=reader.str("reduce_prompt") or None,
+                knowledge_prompt=reader.str("knowledge_prompt") or None,
                 temperature=reader.float("llm_temperature")
                 or defs.GLOBAL_SEARCH_LLM_TEMPERATURE,
                 top_p=reader.float("llm_top_p") or defs.GLOBAL_SEARCH_LLM_TOP_P,
@@ -525,6 +558,54 @@ def create_graphrag_config(
                 concurrency=reader.int("concurrency") or defs.GLOBAL_SEARCH_CONCURRENCY,
             )
 
+        with (
+            reader.use(values.get("drift_search")),
+            reader.envvar_prefix(Section.drift_search),
+        ):
+            drift_search_model = DRIFTSearchConfig(
+                prompt=reader.str("prompt") or None,
+                temperature=reader.float("llm_temperature")
+                or defs.DRIFT_SEARCH_LLM_TEMPERATURE,
+                top_p=reader.float("llm_top_p") or defs.DRIFT_SEARCH_LLM_TOP_P,
+                n=reader.int("llm_n") or defs.DRIFT_SEARCH_LLM_N,
+                max_tokens=reader.int(Fragment.max_tokens)
+                or defs.DRIFT_SEARCH_MAX_TOKENS,
+                data_max_tokens=reader.int("data_max_tokens")
+                or defs.DRIFT_SEARCH_DATA_MAX_TOKENS,
+                concurrency=reader.int("concurrency") or defs.DRIFT_SEARCH_CONCURRENCY,
+                drift_k_followups=reader.int("drift_k_followups")
+                or defs.DRIFT_SEARCH_K_FOLLOW_UPS,
+                primer_folds=reader.int("primer_folds")
+                or defs.DRIFT_SEARCH_PRIMER_FOLDS,
+                primer_llm_max_tokens=reader.int("primer_llm_max_tokens")
+                or defs.DRIFT_SEARCH_PRIMER_MAX_TOKENS,
+                n_depth=reader.int("n_depth") or defs.DRIFT_N_DEPTH,
+                local_search_text_unit_prop=reader.float("local_search_text_unit_prop")
+                or defs.DRIFT_LOCAL_SEARCH_TEXT_UNIT_PROP,
+                local_search_community_prop=reader.float("local_search_community_prop")
+                or defs.DRIFT_LOCAL_SEARCH_COMMUNITY_PROP,
+                local_search_top_k_mapped_entities=reader.int(
+                    "local_search_top_k_mapped_entities"
+                )
+                or defs.DRIFT_LOCAL_SEARCH_TOP_K_MAPPED_ENTITIES,
+                local_search_top_k_relationships=reader.int(
+                    "local_search_top_k_relationships"
+                )
+                or defs.DRIFT_LOCAL_SEARCH_TOP_K_RELATIONSHIPS,
+                local_search_max_data_tokens=reader.int("local_search_max_data_tokens")
+                or defs.DRIFT_LOCAL_SEARCH_MAX_TOKENS,
+                local_search_temperature=reader.float("local_search_temperature")
+                or defs.DRIFT_LOCAL_SEARCH_LLM_TEMPERATURE,
+                local_search_top_p=reader.float("local_search_top_p")
+                or defs.DRIFT_LOCAL_SEARCH_LLM_TOP_P,
+                local_search_n=reader.int("local_search_n")
+                or defs.DRIFT_LOCAL_SEARCH_LLM_N,
+                local_search_llm_max_gen_tokens=reader.int(
+                    "local_search_llm_max_gen_tokens"
+                )
+                or defs.DRIFT_LOCAL_SEARCH_LLM_MAX_TOKENS,
+            )
+
         encoding_model = reader.str(Fragment.encoding_model) or defs.ENCODING_MODEL
         skip_workflows = reader.list("skip_workflows") or []
 
@@ -537,6 +618,7 @@ def create_graphrag_config(
         embed_graph=embed_graph_model,
         reporting=reporting_model,
         storage=storage_model,
+        update_index_storage=update_index_storage_model,
         cache=cache_model,
         input=input_model,
         chunks=chunks_model,
@@ -551,6 +633,7 @@ def create_graphrag_config(
         skip_workflows=skip_workflows,
         local_search=local_search_model,
         global_search=global_search_model,
+        drift_search=drift_search_model,
     )
 
 
@@ -563,8 +646,8 @@ class Fragment(str, Enum):
     api_organization = "API_ORGANIZATION"
     api_proxy = "API_PROXY"
     async_mode = "ASYNC_MODE"
+    audience = "AUDIENCE"
     base_dir = "BASE_DIR"
-    cognitive_services_endpoint = "COGNITIVE_SERVICES_ENDPOINT"
     concurrent_requests = "CONCURRENT_REQUESTS"
     conn_string = "CONNECTION_STRING"
     container_name = "CONTAINER_NAME"
@@ -614,8 +697,10 @@ class Section(str, Enum):
     storage = "STORAGE"
     summarize_descriptions = "SUMMARIZE_DESCRIPTIONS"
     umap = "UMAP"
+    update_index_storage = "UPDATE_INDEX_STORAGE"
     local_search = "LOCAL_SEARCH"
     global_search = "GLOBAL_SEARCH"
+    drift_search = "DRIFT_SEARCH"
 
 
 def _is_azure(llm_type: LLMType | None) -> bool:

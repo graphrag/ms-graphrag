@@ -8,8 +8,7 @@ from pathlib import Path
 from pydantic import Field
 
 import graphrag.config.defaults as defs
-
-from .llm_config import LLMConfig
+from graphrag.config.models.llm_config import LLMConfig
 
 
 class EntityExtractionConfig(LLMConfig):
@@ -29,10 +28,15 @@ class EntityExtractionConfig(LLMConfig):
     strategy: dict | None = Field(
         description="Override the default entity extraction strategy", default=None
     )
+    encoding_model: str | None = Field(
+        default=None, description="The encoding model to use."
+    )
 
     def resolved_strategy(self, root_dir: str, encoding_model: str) -> dict:
         """Get the resolved entity extraction strategy."""
-        from graphrag.index.verbs.entities.extraction import ExtractEntityStrategyType
+        from graphrag.index.operations.extract_entities import (
+            ExtractEntityStrategyType,
+        )
 
         return self.strategy or {
             "type": ExtractEntityStrategyType.graph_intelligence,
@@ -45,6 +49,6 @@ class EntityExtractionConfig(LLMConfig):
             else None,
             "max_gleanings": self.max_gleanings,
             # It's prechunked in create_base_text_units
-            "encoding_name": encoding_model,
+            "encoding_name": self.encoding_model or encoding_model,
             "prechunked": True,
         }

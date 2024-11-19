@@ -6,9 +6,8 @@
 import json
 from typing import Any
 
-from graphrag.index.storage import PipelineStorage
-
-from .pipeline_cache import PipelineCache
+from graphrag.index.cache.pipeline_cache import PipelineCache
+from graphrag.index.storage.pipeline_storage import PipelineStorage
 
 
 class JsonPipelineCache(PipelineCache):
@@ -44,7 +43,9 @@ class JsonPipelineCache(PipelineCache):
         if value is None:
             return
         data = {"result": value, **(debug_data or {})}
-        await self._storage.set(key, json.dumps(data), encoding=self._encoding)
+        await self._storage.set(
+            key, json.dumps(data, ensure_ascii=False), encoding=self._encoding
+        )
 
     async def has(self, key: str) -> bool:
         """Has method definition."""

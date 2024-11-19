@@ -5,7 +5,7 @@
 
 from typing_extensions import NotRequired
 
-from .llm_config_input import LLMConfigInput
+from graphrag.config.input_models.llm_config_input import LLMConfigInput
 
 
 class ClaimExtractionConfigInput(LLMConfigInput):
@@ -16,3 +16,4 @@ class ClaimExtractionConfigInput(LLMConfigInput):
     description: NotRequired[str | None]
     max_gleanings: NotRequired[int | str | None]
     strategy: NotRequired[dict | None]
+    encoding_model: NotRequired[str | None]

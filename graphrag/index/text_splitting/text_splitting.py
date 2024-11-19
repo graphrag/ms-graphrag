@@ -14,7 +14,7 @@ from typing import Any, Literal, cast
 import pandas as pd
 import tiktoken
 
-from graphrag.index.utils import num_tokens_from_string
+from graphrag.index.utils.tokens import num_tokens_from_string
 
 EncodedText = list[int]
 DecodeFn = Callable[[EncodedText], str]
@@ -224,7 +224,7 @@ class TextListSplitter(TextSplitter):
         """Append the current chunk to the result."""
         if new_chunk and len(new_chunk) > 0:
             if self._type == TextListSplitterType.JSON:
-                chunk_list.append(json.dumps(new_chunk))
+                chunk_list.append(json.dumps(new_chunk, ensure_ascii=False))
             else:
                 chunk_list.append(self._output_delimiter.join(new_chunk))
 

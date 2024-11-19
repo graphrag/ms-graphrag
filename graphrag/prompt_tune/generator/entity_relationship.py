@@ -7,7 +7,7 @@ import asyncio
 import json
 
 from graphrag.llm.types.llm_types import CompletionLLM
-from graphrag.prompt_tune.prompt import (
+from graphrag.prompt_tune.prompt.entity_relationship import (
     ENTITY_RELATIONSHIPS_GENERATION_JSON_PROMPT,
     ENTITY_RELATIONSHIPS_GENERATION_PROMPT,
     UNTYPED_ENTITY_RELATIONSHIPS_GENERATION_PROMPT,
@@ -34,7 +34,9 @@ async def generate_entity_relationship_examples(
 
     if entity_types:
         entity_types_str = (
-            entity_types if isinstance(entity_types, str) else ", ".join(entity_types)
+            entity_types
+            if isinstance(entity_types, str)
+            else ", ".join(map(str, entity_types))
         )
 
         messages = [
