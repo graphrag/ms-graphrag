@@ -2174,9 +2174,9 @@ File <span class="ansi-green-fg">~/.cache/pypoetry/virtualenvs/graphrag-s4J2bde1
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="load-community-reports-as-context-for-global-search">Load community reports as context for global search<a class="anchor-link" href="#load-community-reports-as-context-for-global-search">¶</a></h3><ul>
-<li>Load all community reports in the <code>create_final_community_reports</code> table from the ire-indexing engine, to be used as context data for global search.</li>
-<li>Load entities from the <code>create_final_nodes</code> and <code>create_final_entities</code> tables from the ire-indexing engine, to be used for calculating community weights for context ranking. Note that this is optional (if no entities are provided, we will not calculate community weights and only use the rank attribute in the community reports table for context ranking)</li>
-<li>Load all communities in the <code>create_final_communites</code> table from the ire-indexing engine, to be used to reconstruct the community graph hierarchy for dynamic community selection.</li>
+<li>Load all community reports in the <code>create_final_community_reports</code> table from the GraphRAG, to be used as context data for global search.</li>
+<li>Load entities from the <code>create_final_nodes</code> and <code>create_final_entities</code> tables from the GraphRAG, to be used for calculating community weights for context ranking. Note that this is optional (if no entities are provided, we will not calculate community weights and only use the rank attribute in the community reports table for context ranking)</li>
+<li>Load all communities in the <code>create_final_communites</code> table from the GraphRAG, to be used to reconstruct the community graph hierarchy for dynamic community selection.</li>
 </ul>
 </div>
 </div>
