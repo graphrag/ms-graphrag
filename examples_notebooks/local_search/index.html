@@ -1910,6 +1910,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     processEnvironments: true
                 },
                 displayAlign: 'center',
+                messageStyle: 'none',
                 CommonHTML: {
                     linebreaks: {
                     automatic: true
@@ -2155,28 +2156,28 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">tiktoken</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tiktoken</span>
 
-<span class="kn">from</span> <span class="nn">graphrag.query.context_builder.entity_extraction</span> <span class="kn">import</span> <span class="n">EntityVectorStoreKey</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.indexer_adapters</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.context_builder.entity_extraction</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntityVectorStoreKey</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.indexer_adapters</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">read_indexer_covariates</span><span class="p">,</span>
     <span class="n">read_indexer_entities</span><span class="p">,</span>
     <span class="n">read_indexer_relationships</span><span class="p">,</span>
     <span class="n">read_indexer_reports</span><span class="p">,</span>
     <span class="n">read_indexer_text_units</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.chat_openai</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.embedding</span> <span class="kn">import</span> <span class="n">OpenAIEmbedding</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.typing</span> <span class="kn">import</span> <span class="n">OpenaiApiType</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.question_gen.local_gen</span> <span class="kn">import</span> <span class="n">LocalQuestionGen</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.structured_search.local_search.mixed_context</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.chat_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.embedding</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIEmbedding</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenaiApiType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.question_gen.local_gen</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalQuestionGen</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.structured_search.local_search.mixed_context</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">LocalSearchMixedContext</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.structured_search.local_search.search</span> <span class="kn">import</span> <span class="n">LocalSearch</span>
-<span class="kn">from</span> <span class="nn">graphrag.vector_stores.lancedb</span> <span class="kn">import</span> <span class="n">LanceDBVectorStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.structured_search.local_search.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.vector_stores.lancedb</span><span class="w"> </span><span class="kn">import</span> <span class="n">LanceDBVectorStore</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import os
 
@@ -3380,7 +3381,7 @@ File <span class="ansi-green-fg">~/work/ms-graphrag/ms-graphrag/graphrag/query/c
 <span class="ansi-green-intense-fg ansi-bold">     66</span>         ):
 
 File <span class="ansi-green-fg">~/work/ms-graphrag/ms-graphrag/graphrag/vector_stores/lancedb.py:134</span>, in <span class="ansi-cyan-fg">LanceDBVectorStore.similarity_search_by_text</span><span class="ansi-blue-fg">(self, text, text_embedder, k, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    130</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">similarity_search_by_text</span>(
+<span class="ansi-green-intense-fg ansi-bold">    130</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(0,0,255)">similarity_search_by_text</span>(
 <span class="ansi-green-intense-fg ansi-bold">    131</span>     <span style="color: rgb(0,135,0)">self</span>, text: <span style="color: rgb(0,135,0)">str</span>, text_embedder: TextEmbedder, k: <span style="color: rgb(0,135,0)">int</span> <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(98,98,98)">10</span>, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs: Any
 <span class="ansi-green-intense-fg ansi-bold">    132</span> ) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> <span style="color: rgb(0,135,0)">list</span>[VectorStoreSearchResult]:
 <span class="ansi-green-intense-fg ansi-bold">    133</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">"""Perform a similarity search using a given input text."""</span>
@@ -3527,7 +3528,7 @@ File <span class="ansi-green-fg">~/work/ms-graphrag/ms-graphrag/graphrag/query/c
 <span class="ansi-green-intense-fg ansi-bold">     66</span>         ):
 
 File <span class="ansi-green-fg">~/work/ms-graphrag/ms-graphrag/graphrag/vector_stores/lancedb.py:134</span>, in <span class="ansi-cyan-fg">LanceDBVectorStore.similarity_search_by_text</span><span class="ansi-blue-fg">(self, text, text_embedder, k, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    130</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">similarity_search_by_text</span>(
+<span class="ansi-green-intense-fg ansi-bold">    130</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(0,0,255)">similarity_search_by_text</span>(
 <span class="ansi-green-intense-fg ansi-bold">    131</span>     <span style="color: rgb(0,135,0)">self</span>, text: <span style="color: rgb(0,135,0)">str</span>, text_embedder: TextEmbedder, k: <span style="color: rgb(0,135,0)">int</span> <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(98,98,98)">10</span>, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs: Any
 <span class="ansi-green-intense-fg ansi-bold">    132</span> ) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> <span style="color: rgb(0,135,0)">list</span>[VectorStoreSearchResult]:
 <span class="ansi-green-intense-fg ansi-bold">    133</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">"""Perform a similarity search using a given input text."""</span>
@@ -3996,7 +3997,7 @@ File <span class="ansi-green-fg">~/work/ms-graphrag/ms-graphrag/graphrag/query/c
 <span class="ansi-green-intense-fg ansi-bold">     66</span>         ):
 
 File <span class="ansi-green-fg">~/work/ms-graphrag/ms-graphrag/graphrag/vector_stores/lancedb.py:134</span>, in <span class="ansi-cyan-fg">LanceDBVectorStore.similarity_search_by_text</span><span class="ansi-blue-fg">(self, text, text_embedder, k, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    130</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">similarity_search_by_text</span>(
+<span class="ansi-green-intense-fg ansi-bold">    130</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(0,0,255)">similarity_search_by_text</span>(
 <span class="ansi-green-intense-fg ansi-bold">    131</span>     <span style="color: rgb(0,135,0)">self</span>, text: <span style="color: rgb(0,135,0)">str</span>, text_embedder: TextEmbedder, k: <span style="color: rgb(0,135,0)">int</span> <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(98,98,98)">10</span>, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs: Any
 <span class="ansi-green-intense-fg ansi-bold">    132</span> ) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> <span style="color: rgb(0,135,0)">list</span>[VectorStoreSearchResult]:
 <span class="ansi-green-intense-fg ansi-bold">    133</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">"""Perform a similarity search using a given input text."""</span>
