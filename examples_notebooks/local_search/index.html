@@ -2497,113 +2497,21 @@ entity_df.head()</div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Entity count: 18
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[4]</span><span class="ansi-green-fg">, line 9</span>
+<span class="ansi-green-fg">      5</span> entities = read_indexer_entities(entity_df, community_df, COMMUNITY_LEVEL)
+<span class="ansi-green-fg">      7</span> <span style="color: rgb(95,135,135)"># load description embeddings to an in-memory lancedb vectorstore</span>
+<span class="ansi-green-fg">      8</span> <span style="color: rgb(95,135,135)"># to connect to a remote db, specify url and port values.</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">9</span> description_embedding_store = <span class="ansi-yellow-bg">LanceDBVectorStore</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">     10</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">collection_name</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">default-entity-description</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">     11</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">     12</span> description_embedding_store.connect(db_uri=LANCEDB_URI)
+<span class="ansi-green-fg">     14</span> <span style="color: rgb(0,135,0)">print</span>(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">Entity count: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span><span style="color: rgb(0,135,0)">len</span>(entity_df)<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">"</span>)
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>id</th>
-<th>human_readable_id</th>
-<th>title</th>
-<th>type</th>
-<th>description</th>
-<th>text_unit_ids</th>
-<th>frequency</th>
-<th>degree</th>
-<th>x</th>
-<th>y</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>425a7862-0aef-4f69-a4c8-8bd42151c9d4</td>
-<td>0</td>
-<td>ALEX MERCER</td>
-<td>PERSON</td>
-<td>Agent Alex Mercer is a determined individual w...</td>
-<td>[8e938693af886bfd081acbbe8384c3671446bff84a134...</td>
-<td>4</td>
-<td>9</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>1</th>
-<td>bcdbf1fc-0dc1-460f-bc71-2781729c96ba</td>
-<td>1</td>
-<td>TAYLOR CRUZ</td>
-<td>PERSON</td>
-<td>Agent Taylor Cruz is a commanding and authorit...</td>
-<td>[8e938693af886bfd081acbbe8384c3671446bff84a134...</td>
-<td>4</td>
-<td>8</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>2</th>
-<td>ef02ef24-5762-46ce-93ce-7dea6fc86595</td>
-<td>2</td>
-<td>JORDAN HAYES</td>
-<td>PERSON</td>
-<td>Dr. Jordan Hayes is a scientist and a member o...</td>
-<td>[8e938693af886bfd081acbbe8384c3671446bff84a134...</td>
-<td>4</td>
-<td>9</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>3</th>
-<td>8b163d27-e43a-4a2c-a26f-866778d8720e</td>
-<td>3</td>
-<td>SAM RIVERA</td>
-<td>PERSON</td>
-<td>Sam Rivera is a cybersecurity expert and a tal...</td>
-<td>[8e938693af886bfd081acbbe8384c3671446bff84a134...</td>
-<td>4</td>
-<td>8</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>4</th>
-<td>542aa5bd-ba2d-400a-8488-c52d50bc300d</td>
-<td>4</td>
-<td>PARANORMAL MILITARY SQUAD</td>
-<td>ORGANIZATION</td>
-<td>The PARANORMAL MILITARY SQUAD is an elite grou...</td>
-<td>[8e938693af886bfd081acbbe8384c3671446bff84a134...</td>
-<td>2</td>
-<td>6</td>
-<td>0</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-</div>
+<span class="ansi-red-fg">TypeError</span>: LanceDBVectorStore.__init__() missing 1 required positional argument: 'vector_store_schema_config'</pre>
 </div>
 </div>
 </div>
@@ -3311,7 +3219,7 @@ text_embedder = ModelManager().get_or_create_embedding_model(
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[10]</span><span class="ansi-green-fg">, line 10</span>
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[10]</span><span class="ansi-green-fg">, line 8</span>
 <span class="ansi-green-fg">      1</span> context_builder = LocalSearchMixedContext(
 <span class="ansi-green-fg">      2</span>     community_reports=reports,
 <span class="ansi-green-fg">      3</span>     text_units=text_units,
@@ -3319,13 +3227,13 @@ text_embedder = ModelManager().get_or_create_embedding_model(
 <span class="ansi-green-fg">      5</span>     relationships=relationships,
 <span class="ansi-green-fg">      6</span>     <span style="color: rgb(95,135,135)"># if you did not run covariates during indexing, set this to None</span>
 <span class="ansi-green-fg">      7</span>     covariates=covariates,
-<span class="ansi-green-fg">      8</span>     entity_text_embeddings=description_embedding_store,
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">8</span>     entity_text_embeddings=<span class="ansi-yellow-bg">description_embedding_store</span>,
 <span class="ansi-green-fg">      9</span>     embedding_vectorstore_key=EntityVectorStoreKey.ID,  <span style="color: rgb(95,135,135)"># if the vectorstore uses entity title as ids, set this to EntityVectorStoreKey.TITLE</span>
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">10</span>     text_embedder=<span class="ansi-yellow-bg">text_embedder</span>,
+<span class="ansi-green-fg">     10</span>     text_embedder=text_embedder,
 <span class="ansi-green-fg">     11</span>     token_encoder=token_encoder,
 <span class="ansi-green-fg">     12</span> )
 
-<span class="ansi-red-fg">NameError</span>: name 'text_embedder' is not defined</pre>
+<span class="ansi-red-fg">NameError</span>: name 'description_embedding_store' is not defined</pre>
 </div>
 </div>
 </div>
