@@ -3136,38 +3136,22 @@ text_embedder = ModelManager().get_or_create_embedding_model(
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValidationError</span>                           Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[9]</span><span class="ansi-green-fg">, line 9</span>
-<span class="ansi-green-fg">      6</span> llm_model = os.environ[<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">GRAPHRAG_LLM_MODEL</span><span class="ansi-yellow-fg">"</span>]
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[9]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-green-fg">      3</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">graphrag</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">language_model</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">manager</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-bold" style="color: rgb(0,135,0)">import</span> ModelManager
+<span class="ansi-green-fg">      5</span> api_key = os.environ[<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">GRAPHRAG_API_KEY</span><span class="ansi-yellow-fg">"</span>]
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">6</span> llm_model = <span class="ansi-yellow-bg">os</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">environ</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">GRAPHRAG_LLM_MODEL</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">]</span>
 <span class="ansi-green-fg">      7</span> embedding_model = os.environ[<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">GRAPHRAG_EMBEDDING_MODEL</span><span class="ansi-yellow-fg">"</span>]
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">9</span> chat_config = <span class="ansi-yellow-bg">LanguageModelConfig</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">     10</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">api_key</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">api_key</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">     11</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">type</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">ModelType</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">OpenAIChat</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">     12</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">model</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">llm_model</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">     13</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">max_retries</span><span class="ansi-yellow-bg">=</span><span class="ansi-green-fg ansi-yellow-bg">20</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">     14</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">     15</span> chat_model = ModelManager().get_or_create_chat_model(
-<span class="ansi-green-fg">     16</span>     name=<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">local_search</span><span class="ansi-yellow-fg">"</span>,
-<span class="ansi-green-fg">     17</span>     model_type=ModelType.OpenAIChat,
-<span class="ansi-green-fg">     18</span>     config=chat_config,
-<span class="ansi-green-fg">     19</span> )
-<span class="ansi-green-fg">     21</span> token_encoder = tiktoken.encoding_for_model(llm_model)
+<span class="ansi-green-fg">      9</span> chat_config = LanguageModelConfig(
+<span class="ansi-green-fg">     10</span>     api_key=api_key,
+<span class="ansi-green-fg">     11</span>     <span style="color: rgb(0,135,0)">type</span>=ModelType.OpenAIChat,
+<span class="ansi-green-fg">     12</span>     model=llm_model,
+<span class="ansi-green-fg">     13</span>     max_retries=<span class="ansi-green-fg">20</span>,
+<span class="ansi-green-fg">     14</span> )
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/ms-graphrag/ms-graphrag/.venv/lib/python3.11/site-packages/pydantic/main.py:253</span>, in <span class="ansi-cyan-fg">BaseModel.__init__</span><span class="ansi-blue-fg">(self, **data)</span>
-<span class="ansi-green-fg">    251</span> <span style="color: rgb(95,135,135)"># `__tracebackhide__` tells pytest and some other tools to omit this function from tracebacks</span>
-<span class="ansi-green-fg">    252</span> __tracebackhide__ = <span class="ansi-bold" style="color: rgb(0,135,0)">True</span>
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">253</span> validated_self = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">__pydantic_validator__</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">validate_python</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">data</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">self_instance</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    254</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">self</span> <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> validated_self:
-<span class="ansi-green-fg">    255</span>     warnings.warn(
-<span class="ansi-green-fg">    256</span>         <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">A custom validator is returning a value other than `self`.</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-fg">'</span>
-<span class="ansi-green-fg">    257</span>         <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">Returning anything other than `self` from a top level model validator isn</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">t supported when validating via `__init__`.</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-fg">"</span>
-<span class="ansi-green-fg">    258</span>         <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">See the `model_validator` docs (https://docs.pydantic.dev/latest/concepts/validators/#model-validators) for more details.</span><span class="ansi-yellow-fg">'</span>,
-<span class="ansi-green-fg">    259</span>         stacklevel=<span class="ansi-green-fg">2</span>,
-<span class="ansi-green-fg">    260</span>     )
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">&lt;frozen os&gt;:679</span>, in <span class="ansi-cyan-fg">__getitem__</span><span class="ansi-blue-fg">(self, key)</span>
 
-<span class="ansi-red-fg">ValidationError</span>: 1 validation error for LanguageModelConfig
-  Value error, API Key is required for ModelType.OpenAIChat when using api_key authentication. Please rerun `graphrag init` and set the API_KEY. [type=value_error, input_value={'api_key': '', 'type': "...: '', 'max_retries': 20}, input_type=dict]
-    For further information visit https://errors.pydantic.dev/2.11/v/value_error</pre>
+<span class="ansi-red-fg">KeyError</span>: 'GRAPHRAG_LLM_MODEL'</pre>
 </div>
 </div>
 </div>
