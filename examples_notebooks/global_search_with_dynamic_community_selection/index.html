@@ -2300,8 +2300,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -2322,7 +2322,6 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.config.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.config.models.language_model_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">LanguageModelConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.language_model.manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelManager</span>
@@ -2339,7 +2338,6 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="clipboard-copy-txt" id="cell-2">import os
 
 import pandas as pd
-
 from graphrag.config.enums import ModelType
 from graphrag.config.models.language_model_config import LanguageModelConfig
 from graphrag.language_model.manager import ModelManager
@@ -2352,6 +2350,28 @@ from graphrag.query.structured_search.global_search.community_context import (
     GlobalCommunityContext,
 )
 from graphrag.query.structured_search.global_search.search import GlobalSearch</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ImportError</span>                               Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[2]</span><span class="ansi-green-fg">, line 4</span>
+<span class="ansi-green-fg">      1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">os</span>
+<span class="ansi-green-fg">      3</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">pandas</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-bold" style="color: rgb(0,135,0)">as</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">pd</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">4</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">graphrag</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">config</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">enums</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-bold" style="color: rgb(0,135,0)">import</span> ModelType
+<span class="ansi-green-fg">      5</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">graphrag</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">config</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">models</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">language_model_config</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-bold" style="color: rgb(0,135,0)">import</span> LanguageModelConfig
+<span class="ansi-green-fg">      6</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">graphrag</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">language_model</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">manager</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-bold" style="color: rgb(0,135,0)">import</span> ModelManager
+
+<span class="ansi-red-fg">ImportError</span>: cannot import name 'ModelType' from 'graphrag.config.enums' (/home/runner/work/ms-graphrag/ms-graphrag/packages/graphrag/graphrag/config/enums.py)</pre>
 </div>
 </div>
 </div>
@@ -2448,17 +2468,17 @@ tokenizer = get_tokenizer(config)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValidationError</span>                           Traceback (most recent call last)
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
 <span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[3]</span><span class="ansi-green-fg">, line 5</span>
 <span class="ansi-green-fg">      1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">graphrag</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">tokenizer</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">get_tokenizer</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-bold" style="color: rgb(0,135,0)">import</span> get_tokenizer
 <span class="ansi-green-fg">      3</span> api_key = os.environ[<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">GRAPHRAG_API_KEY</span><span class="ansi-yellow-fg">"</span>]
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">5</span> config = <span class="ansi-yellow-bg">LanguageModelConfig</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">      6</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">api_key</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">api_key</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      7</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">type</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">ModelType</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">Chat</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      8</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">model_provider</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">openai</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">      9</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">model</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">gpt-4.1</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">     10</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">max_retries</span><span class="ansi-yellow-bg">=</span><span class="ansi-green-fg ansi-yellow-bg">20</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">     11</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">5</span> config = <span class="ansi-yellow-bg">LanguageModelConfig</span>(
+<span class="ansi-green-fg">      6</span>     api_key=api_key,
+<span class="ansi-green-fg">      7</span>     <span style="color: rgb(0,135,0)">type</span>=ModelType.Chat,
+<span class="ansi-green-fg">      8</span>     model_provider=<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">openai</span><span class="ansi-yellow-fg">"</span>,
+<span class="ansi-green-fg">      9</span>     model=<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">gpt-4.1</span><span class="ansi-yellow-fg">"</span>,
+<span class="ansi-green-fg">     10</span>     max_retries=<span class="ansi-green-fg">20</span>,
+<span class="ansi-green-fg">     11</span> )
 <span class="ansi-green-fg">     12</span> model = ModelManager().get_or_create_chat_model(
 <span class="ansi-green-fg">     13</span>     name=<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">global_search</span><span class="ansi-yellow-fg">"</span>,
 <span class="ansi-green-fg">     14</span>     model_type=ModelType.Chat,
@@ -2466,21 +2486,7 @@ tokenizer = get_tokenizer(config)</div>
 <span class="ansi-green-fg">     16</span> )
 <span class="ansi-green-fg">     18</span> tokenizer = get_tokenizer(config)
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/ms-graphrag/ms-graphrag/.venv/lib/python3.11/site-packages/pydantic/main.py:250</span>, in <span class="ansi-cyan-fg">BaseModel.__init__</span><span class="ansi-blue-fg">(self, **data)</span>
-<span class="ansi-green-fg">    248</span> <span style="color: rgb(95,135,135)"># `__tracebackhide__` tells pytest and some other tools to omit this function from tracebacks</span>
-<span class="ansi-green-fg">    249</span> __tracebackhide__ = <span class="ansi-bold" style="color: rgb(0,135,0)">True</span>
-<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">250</span> validated_self = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">__pydantic_validator__</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">validate_python</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">data</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">self_instance</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    251</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">self</span> <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> validated_self:
-<span class="ansi-green-fg">    252</span>     warnings.warn(
-<span class="ansi-green-fg">    253</span>         <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">A custom validator is returning a value other than `self`.</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-fg">'</span>
-<span class="ansi-green-fg">    254</span>         <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">Returning anything other than `self` from a top level model validator isn</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">t supported when validating via `__init__`.</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-fg">"</span>
-<span class="ansi-green-fg">    255</span>         <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">See the `model_validator` docs (https://docs.pydantic.dev/latest/concepts/validators/#model-validators) for more details.</span><span class="ansi-yellow-fg">'</span>,
-<span class="ansi-green-fg">    256</span>         stacklevel=<span class="ansi-green-fg">2</span>,
-<span class="ansi-green-fg">    257</span>     )
-
-<span class="ansi-red-fg">ValidationError</span>: 1 validation error for LanguageModelConfig
-  Value error, API Key is required for ModelType.Chat when using api_key authentication. Please rerun `graphrag init` and set the API_KEY. [type=value_error, input_value={'api_key': '', 'type': "...4.1', 'max_retries': 20}, input_type=dict]
-    For further information visit https://errors.pydantic.dev/2.12/v/value_error</pre>
+<span class="ansi-red-fg">NameError</span>: name 'LanguageModelConfig' is not defined</pre>
 </div>
 </div>
 </div>
@@ -2616,90 +2622,25 @@ report_df.head()</div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Total report count: 2
-Report count after filtering by community level None: 2
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[5]</span><span class="ansi-green-fg">, line 5</span>
+<span class="ansi-green-fg">      2</span> entity_df = pd.read_parquet(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">"</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>INPUT_DIR<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">/</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>ENTITY_TABLE<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">.parquet</span><span class="ansi-yellow-fg">"</span>)
+<span class="ansi-green-fg">      3</span> report_df = pd.read_parquet(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">"</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>INPUT_DIR<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">/</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>COMMUNITY_REPORT_TABLE<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">.parquet</span><span class="ansi-yellow-fg">"</span>)
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">5</span> communities = <span class="ansi-yellow-bg">read_indexer_communities</span>(community_df, report_df)
+<span class="ansi-green-fg">      6</span> reports = read_indexer_reports(
+<span class="ansi-green-fg">      7</span>     report_df,
+<span class="ansi-green-fg">      8</span>     community_df,
+<span class="ansi-green-fg">      9</span>     community_level=COMMUNITY_LEVEL,
+<span class="ansi-green-fg">     10</span>     dynamic_community_selection=<span class="ansi-bold" style="color: rgb(0,135,0)">True</span>,
+<span class="ansi-green-fg">     11</span> )
+<span class="ansi-green-fg">     12</span> entities = read_indexer_entities(
+<span class="ansi-green-fg">     13</span>     entity_df, community_df, community_level=COMMUNITY_LEVEL
+<span class="ansi-green-fg">     14</span> )
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>id</th>
-<th>human_readable_id</th>
-<th>community</th>
-<th>level</th>
-<th>parent</th>
-<th>children</th>
-<th>title</th>
-<th>summary</th>
-<th>full_content</th>
-<th>rank</th>
-<th>rating_explanation</th>
-<th>findings</th>
-<th>full_content_json</th>
-<th>period</th>
-<th>size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>6c3a555680d647ac8be866a129c7b0ea</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>-1</td>
-<td>[]</td>
-<td>Operation: Dulce and Dulce Base Exploration</td>
-<td>The community revolves around 'Operation: Dulc...</td>
-<td># Operation: Dulce and Dulce Base Exploration\...</td>
-<td>8.5</td>
-<td>The impact severity rating is high due to the ...</td>
-<td>[{'explanation': 'Operation: Dulce is a signif...</td>
-<td>{\n    "title": "Operation: Dulce and Dulce Ba...</td>
-<td>2025-03-04</td>
-<td>7</td>
-</tr>
-<tr>
-<th>1</th>
-<td>0127331a1ea34b8ba19de2c2a4cb3bc9</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>-1</td>
-<td>[]</td>
-<td>Paranormal Military Squad and Operation: Dulce</td>
-<td>The community centers around the Paranormal Mi...</td>
-<td># Paranormal Military Squad and Operation: Dul...</td>
-<td>8.5</td>
-<td>The impact severity rating is high due to the ...</td>
-<td>[{'explanation': 'Agent Alex Mercer is a key f...</td>
-<td>{\n    "title": "Paranormal Military Squad and...</td>
-<td>2025-03-04</td>
-<td>9</td>
-</tr>
-</tbody>
-</table>
-</div>
+<span class="ansi-red-fg">NameError</span>: name 'read_indexer_communities' is not defined</pre>
 </div>
 </div>
 </div>
@@ -2774,12 +2715,12 @@ Report count after filtering by community level None: 2
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[6]</span><span class="ansi-green-fg">, line 5</span>
-<span class="ansi-green-fg">      1</span> context_builder = GlobalCommunityContext(
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[6]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> context_builder = <span class="ansi-yellow-bg">GlobalCommunityContext</span>(
 <span class="ansi-green-fg">      2</span>     community_reports=reports,
 <span class="ansi-green-fg">      3</span>     communities=communities,
 <span class="ansi-green-fg">      4</span>     entities=entities,  <span style="color: rgb(95,135,135)"># default to None if you don't want to use community weights for ranking</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">5</span>     tokenizer=<span class="ansi-yellow-bg">tokenizer</span>,
+<span class="ansi-green-fg">      5</span>     tokenizer=tokenizer,
 <span class="ansi-green-fg">      6</span>     dynamic_community_selection=<span class="ansi-bold" style="color: rgb(0,135,0)">True</span>,
 <span class="ansi-green-fg">      7</span>     dynamic_community_selection_kwargs={
 <span class="ansi-green-fg">      8</span>         <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">model</span><span class="ansi-yellow-fg">"</span>: model,
@@ -2787,7 +2728,7 @@ Report count after filtering by community level None: 2
 <span class="ansi-green-fg">     10</span>     },
 <span class="ansi-green-fg">     11</span> )
 
-<span class="ansi-red-fg">NameError</span>: name 'tokenizer' is not defined</pre>
+<span class="ansi-red-fg">NameError</span>: name 'GlobalCommunityContext' is not defined</pre>
 </div>
 </div>
 </div>
@@ -2935,9 +2876,9 @@ reduce_llm_params = {
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[8]</span><span class="ansi-green-fg">, line 2</span>
-<span class="ansi-green-fg">      1</span> search_engine = GlobalSearch(
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span>     model=<span class="ansi-yellow-bg">model</span>,
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[8]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> search_engine = <span class="ansi-yellow-bg">GlobalSearch</span>(
+<span class="ansi-green-fg">      2</span>     model=model,
 <span class="ansi-green-fg">      3</span>     context_builder=context_builder,
 <span class="ansi-green-fg">      4</span>     tokenizer=tokenizer,
 <span class="ansi-green-fg">      5</span>     max_data_tokens=<span class="ansi-green-fg">12_000</span>,  <span style="color: rgb(95,135,135)"># change this based on the token limit you have on your model (if you are using a model with 8k limit, a good setting could be 5000)</span>
@@ -2950,7 +2891,7 @@ reduce_llm_params = {
 <span class="ansi-green-fg">     12</span>     response_type=<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">multiple paragraphs</span><span class="ansi-yellow-fg">"</span>,  <span style="color: rgb(95,135,135)"># free form text describing the response type and format, can be anything, e.g. prioritized list, single paragraph, multiple paragraphs, multiple-page report</span>
 <span class="ansi-green-fg">     13</span> )
 
-<span class="ansi-red-fg">NameError</span>: name 'model' is not defined</pre>
+<span class="ansi-red-fg">NameError</span>: name 'GlobalSearch' is not defined</pre>
 </div>
 </div>
 </div>
