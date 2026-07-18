@@ -3694,75 +3694,55 @@ text_unit_df.head()</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.config.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.config.models.language_model_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">LanguageModelConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.language_model.manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelManager</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.tokenizer.get_tokenizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_tokenizer</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.tokenizer.get_tokenizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_tokenizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_llm.completion</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_completion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_llm.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_llm.embedding</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_embedding</span>
 
 <span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"GRAPHRAG_API_KEY"</span><span class="p">]</span>
 
-<span class="n">chat_config</span> <span class="o">=</span> <span class="n">LanguageModelConfig</span><span class="p">(</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
-    <span class="nb">type</span><span class="o">=</span><span class="n">ModelType</span><span class="o">.</span><span class="n">Chat</span><span class="p">,</span>
+<span class="n">chat_config</span> <span class="o">=</span> <span class="n">ModelConfig</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="s2">"litellm"</span><span class="p">,</span>
     <span class="n">model_provider</span><span class="o">=</span><span class="s2">"openai"</span><span class="p">,</span>
     <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-4.1"</span><span class="p">,</span>
-    <span class="n">max_retries</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">chat_model</span> <span class="o">=</span> <span class="n">ModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_or_create_chat_model</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"local_search"</span><span class="p">,</span>
-    <span class="n">model_type</span><span class="o">=</span><span class="n">ModelType</span><span class="o">.</span><span class="n">Chat</span><span class="p">,</span>
-    <span class="n">config</span><span class="o">=</span><span class="n">chat_config</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">embedding_config</span> <span class="o">=</span> <span class="n">LanguageModelConfig</span><span class="p">(</span>
     <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
-    <span class="nb">type</span><span class="o">=</span><span class="n">ModelType</span><span class="o">.</span><span class="n">Embedding</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">chat_model</span> <span class="o">=</span> <span class="n">create_completion</span><span class="p">(</span><span class="n">chat_config</span><span class="p">)</span>
+
+<span class="n">embedding_config</span> <span class="o">=</span> <span class="n">ModelConfig</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="s2">"litellm"</span><span class="p">,</span>
     <span class="n">model_provider</span><span class="o">=</span><span class="s2">"openai"</span><span class="p">,</span>
     <span class="n">model</span><span class="o">=</span><span class="s2">"text-embedding-3-small"</span><span class="p">,</span>
-    <span class="n">max_retries</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">text_embedder</span> <span class="o">=</span> <span class="n">ModelManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_or_create_embedding_model</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"local_search_embedding"</span><span class="p">,</span>
-    <span class="n">model_type</span><span class="o">=</span><span class="n">ModelType</span><span class="o">.</span><span class="n">Embedding</span><span class="p">,</span>
-    <span class="n">config</span><span class="o">=</span><span class="n">embedding_config</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">text_embedder</span> <span class="o">=</span> <span class="n">create_embedding</span><span class="p">(</span><span class="n">embedding_config</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">get_tokenizer</span><span class="p">(</span><span class="n">chat_config</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9">from graphrag.config.enums import ModelType
-from graphrag.config.models.language_model_config import LanguageModelConfig
-from graphrag.language_model.manager import ModelManager
-from graphrag.tokenizer.get_tokenizer import get_tokenizer
+<div class="clipboard-copy-txt" id="cell-9">from graphrag.tokenizer.get_tokenizer import get_tokenizer
+from graphrag_llm.completion import create_completion
+from graphrag_llm.config import ModelConfig
+from graphrag_llm.embedding import create_embedding
 
 api_key = os.environ["GRAPHRAG_API_KEY"]
 
-chat_config = LanguageModelConfig(
-    api_key=api_key,
-    type=ModelType.Chat,
+chat_config = ModelConfig(
+    type="litellm",
     model_provider="openai",
     model="gpt-4.1",
-    max_retries=20,
-)
-chat_model = ModelManager().get_or_create_chat_model(
-    name="local_search",
-    model_type=ModelType.Chat,
-    config=chat_config,
-)
-
-embedding_config = LanguageModelConfig(
     api_key=api_key,
-    type=ModelType.Embedding,
+)
+chat_model = create_completion(chat_config)
+
+embedding_config = ModelConfig(
+    type="litellm",
     model_provider="openai",
     model="text-embedding-3-small",
-    max_retries=20,
+    api_key=api_key,
 )
 
-text_embedder = ModelManager().get_or_create_embedding_model(
-    name="local_search_embedding",
-    model_type=ModelType.Embedding,
-    config=embedding_config,
-)
+text_embedder = create_embedding(embedding_config)
 
 tokenizer = get_tokenizer(chat_config)</div>
 </div>
@@ -3778,14 +3758,32 @@ tokenizer = get_tokenizer(chat_config)</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ImportError</span>                               Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[9]</span><span class="ansi-green-fg">, line 1</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> graphrag.config.enums <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> ModelType
-<span class="ansi-green-fg">      2</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> graphrag.config.models.language_model_config <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> LanguageModelConfig
-<span class="ansi-green-fg">      3</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> graphrag.language_model.manager <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> ModelManager
-<span class="ansi-green-fg">      4</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> graphrag.tokenizer.get_tokenizer <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> get_tokenizer
+<span class="ansi-red-fg">ValidationError</span>                           Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[9]</span><span class="ansi-green-fg">, line 8</span>
+<span class="ansi-green-fg">      4</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> graphrag_llm.embedding <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> create_embedding
+<span class="ansi-green-fg">      5</span> 
+<span class="ansi-green-fg">      6</span> api_key = os.environ[<span class="ansi-yellow-fg">"GRAPHRAG_API_KEY"</span>]
+<span class="ansi-green-fg">      7</span> 
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">8</span> chat_config = ModelConfig(
+<span class="ansi-green-fg">      9</span>     type=<span class="ansi-yellow-fg">"litellm"</span>,
+<span class="ansi-green-fg">     10</span>     model_provider=<span class="ansi-yellow-fg">"openai"</span>,
+<span class="ansi-green-fg">     11</span>     model=<span class="ansi-yellow-fg">"gpt-4.1"</span>,
 
-<span class="ansi-red-fg">ImportError</span>: cannot import name 'ModelType' from 'graphrag.config.enums' (/home/runner/work/ms-graphrag/ms-graphrag/packages/graphrag/graphrag/config/enums.py)</pre>
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/ms-graphrag/ms-graphrag/.venv/lib/python3.13/site-packages/pydantic/main.py:263</span>, in <span class="ansi-cyan-fg">BaseModel.__init__</span><span class="ansi-blue-fg">(self, **data)</span>
+<span class="ansi-green-fg">    261</span> <span style="color: rgb(95,135,135)"># `__tracebackhide__` tells pytest and some other tools to omit this function from tracebacks</span>
+<span class="ansi-green-fg">    262</span> __tracebackhide__ = <span class="ansi-bold" style="color: rgb(0,135,0)">True</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">263</span> validated_self = <span class="ansi-black-fg ansi-yellow-bg">self</span><span class="ansi-black-fg ansi-yellow-bg">.</span><span class="ansi-black-fg ansi-yellow-bg">__pydantic_validator__</span><span class="ansi-black-fg ansi-yellow-bg">.</span><span class="ansi-black-fg ansi-yellow-bg">validate_python</span><span class="ansi-black-fg ansi-yellow-bg">(</span><span class="ansi-black-fg ansi-yellow-bg">data</span><span class="ansi-black-fg ansi-yellow-bg">,</span><span class="ansi-black-fg ansi-yellow-bg"> </span><span class="ansi-black-fg ansi-yellow-bg">self_instance</span><span class="ansi-black-fg ansi-yellow-bg">=</span><span class="ansi-black-fg ansi-yellow-bg">self</span><span class="ansi-black-fg ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    264</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">self</span> <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> validated_self:
+<span class="ansi-green-fg">    265</span>     warnings.warn(
+<span class="ansi-green-fg">    266</span>         <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">A custom validator is returning a value other than `self`.</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-fg">'</span>
+<span class="ansi-green-fg">    267</span>         <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">Returning anything other than `self` from a top level model validator isn</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">t supported when validating via `__init__`.</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-fg">"</span>
+<span class="ansi-green-fg">    268</span>         <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">See the `model_validator` docs (https://docs.pydantic.dev/latest/concepts/validators/#model-validators) for more details.</span><span class="ansi-yellow-fg">'</span>,
+<span class="ansi-green-fg">    269</span>         stacklevel=<span class="ansi-green-fg">2</span>,
+<span class="ansi-green-fg">    270</span>     )
+
+<span class="ansi-red-fg">ValidationError</span>: 1 validation error for ModelConfig
+  Value error, api_key must be set when auth_method=api_key. [type=value_error, input_value={'type': 'litellm', 'mode...gpt-4.1', 'api_key': ''}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/value_error</pre>
 </div>
 </div>
 </div>
