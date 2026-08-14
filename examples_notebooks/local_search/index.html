@@ -2874,8 +2874,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -2909,7 +2909,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="n">LocalSearchMixedContext</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.structured_search.local_search.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalSearch</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_vectors</span><span class="w"> </span><span class="kn">import</span> <span class="n">IndexSchema</span><span class="p">,</span> <span class="n">LanceDBVectorStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag_vectors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">IndexSchema</span><span class="p">,</span>
+    <span class="n">VectorStoreConfig</span><span class="p">,</span>
+    <span class="n">VectorStoreType</span><span class="p">,</span>
+    <span class="n">create_vector_store</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import os
 
@@ -2927,29 +2932,12 @@ from graphrag.query.structured_search.local_search.mixed_context import (
     LocalSearchMixedContext,
 )
 from graphrag.query.structured_search.local_search.search import LocalSearch
-from graphrag_vectors import IndexSchema, LanceDBVectorStore</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ImportError</span>                               Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[2]</span><span class="ansi-green-fg">, line 17</span>
-<span class="ansi-green-fg">     13</span> from graphrag.query.structured_search.local_search.mixed_context import (
-<span class="ansi-green-fg">     14</span>     LocalSearchMixedContext,
-<span class="ansi-green-fg">     15</span> )
-<span class="ansi-green-fg">     16</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> graphrag.query.structured_search.local_search.search <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> LocalSearch
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">17</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> graphrag_vectors <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> IndexSchema, LanceDBVectorStore
-
-<span class="ansi-red-fg">ImportError</span>: cannot import name 'LanceDBVectorStore' from 'graphrag_vectors' (/home/runner/work/ms-graphrag/ms-graphrag/packages/graphrag-vectors/graphrag_vectors/__init__.py)</pre>
+from graphrag_vectors import (
+    IndexSchema,
+    VectorStoreConfig,
+    VectorStoreType,
+    create_vector_store,
+)</div>
 </div>
 </div>
 </div>
@@ -3073,10 +3061,11 @@ COMMUNITY_LEVEL = 2</div>
 
 <span class="c1"># load description embeddings to an in-memory lancedb vectorstore</span>
 <span class="c1"># to connect to a remote db, specify url and port values.</span>
-<span class="n">description_embedding_store</span> <span class="o">=</span> <span class="n">LanceDBVectorStore</span><span class="p">(</span>
-    <span class="n">index_schema</span><span class="o">=</span><span class="n">IndexSchema</span><span class="p">(</span><span class="n">index_name</span><span class="o">=</span><span class="s2">"default-entity-description"</span><span class="p">)</span>
+<span class="n">description_embedding_store</span> <span class="o">=</span> <span class="n">create_vector_store</span><span class="p">(</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">VectorStoreConfig</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">VectorStoreType</span><span class="o">.</span><span class="n">LanceDB</span><span class="p">,</span> <span class="n">uri</span><span class="o">=</span><span class="n">LANCEDB_URI</span><span class="p">),</span>
+    <span class="n">index_schema</span><span class="o">=</span><span class="n">IndexSchema</span><span class="p">(</span><span class="n">index_name</span><span class="o">=</span><span class="s2">"default-entity-description"</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">description_embedding_store</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_uri</span><span class="o">=</span><span class="n">LANCEDB_URI</span><span class="p">)</span>
+<span class="n">description_embedding_store</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Entity count: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">entity_df</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">entity_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -3089,10 +3078,11 @@ entities = read_indexer_entities(entity_df, community_df, COMMUNITY_LEVEL)
 
 # load description embeddings to an in-memory lancedb vectorstore
 # to connect to a remote db, specify url and port values.
-description_embedding_store = LanceDBVectorStore(
-    index_schema=IndexSchema(index_name="default-entity-description")
+description_embedding_store = create_vector_store(
+    config=VectorStoreConfig(type=VectorStoreType.LanceDB, uri=LANCEDB_URI),
+    index_schema=IndexSchema(index_name="default-entity-description"),
 )
-description_embedding_store.connect(db_uri=LANCEDB_URI)
+description_embedding_store.connect()
 
 print(f"Entity count: {len(entity_df)}")
 entity_df.head()</div>
@@ -3106,21 +3096,101 @@ entity_df.head()</div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[4]</span><span class="ansi-green-fg">, line 9</span>
-<span class="ansi-green-fg">      5</span> entities = read_indexer_entities(entity_df, community_df, COMMUNITY_LEVEL)
-<span class="ansi-green-fg">      6</span> 
-<span class="ansi-green-fg">      7</span> <span style="color: rgb(95,135,135)"># load description embeddings to an in-memory lancedb vectorstore</span>
-<span class="ansi-green-fg">      8</span> <span style="color: rgb(95,135,135)"># to connect to a remote db, specify url and port values.</span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">9</span> description_embedding_store = LanceDBVectorStore(
-<span class="ansi-green-fg">     10</span>     index_schema=IndexSchema(index_name=<span class="ansi-yellow-fg">"default-entity-description"</span>)
-<span class="ansi-green-fg">     11</span> )
-<span class="ansi-green-fg">     12</span> description_embedding_store.connect(db_uri=LANCEDB_URI)
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Entity count: 39
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ansi-red-fg">NameError</span>: name 'LanceDBVectorStore' is not defined</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>id</th>
+<th>human_readable_id</th>
+<th>title</th>
+<th>type</th>
+<th>description</th>
+<th>text_unit_ids</th>
+<th>frequency</th>
+<th>degree</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>bbb2ad85-3d0b-4c26-b6f9-71ed76ee64bd</td>
+<td>0</td>
+<td>ALEX MERCER</td>
+<td>PERSON</td>
+<td>Agent Alex Mercer is a determined and thoughtf...</td>
+<td>[ff65e3e3764d360b35c55a83aaa35b0138af32551d0bc...</td>
+<td>5</td>
+<td>17</td>
+</tr>
+<tr>
+<th>1</th>
+<td>66112f07-d45e-4394-92ad-66e87c8579ff</td>
+<td>1</td>
+<td>TAYLOR CRUZ</td>
+<td>PERSON</td>
+<td>Taylor Cruz is a confident, driven, and ambiti...</td>
+<td>[ff65e3e3764d360b35c55a83aaa35b0138af32551d0bc...</td>
+<td>4</td>
+<td>17</td>
+</tr>
+<tr>
+<th>2</th>
+<td>e1274d98-d87d-4307-9e9d-851146e85637</td>
+<td>2</td>
+<td>JORDAN HAYES</td>
+<td>PERSON</td>
+<td>Dr. Jordan Hayes is a highly analytical and sk...</td>
+<td>[ff65e3e3764d360b35c55a83aaa35b0138af32551d0bc...</td>
+<td>4</td>
+<td>13</td>
+</tr>
+<tr>
+<th>3</th>
+<td>d1135bbc-3bb8-450f-acf9-f3199e9c45cf</td>
+<td>3</td>
+<td>SAM RIVERA</td>
+<td>PERSON</td>
+<td>Sam Rivera is a highly skilled and adaptable m...</td>
+<td>[ff65e3e3764d360b35c55a83aaa35b0138af32551d0bc...</td>
+<td>4</td>
+<td>17</td>
+</tr>
+<tr>
+<th>4</th>
+<td>6e9b5c3b-2ec4-4e48-b111-cebfbd02ee0f</td>
+<td>4</td>
+<td>PARANORMAL MILITARY SQUAD</td>
+<td>ORGANIZATION</td>
+<td>The Paranormal Military Squad is an elite mili...</td>
+<td>[ff65e3e3764d360b35c55a83aaa35b0138af32551d0bc...</td>
+<td>2</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -3858,17 +3928,16 @@ tokenizer = get_tokenizer(chat_config)</div>
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[10]</span><span class="ansi-green-fg">, line 8</span>
-<span class="ansi-green-fg">      4</span>     entities=entities,
-<span class="ansi-green-fg">      5</span>     relationships=relationships,
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[10]</span><span class="ansi-green-fg">, line 10</span>
 <span class="ansi-green-fg">      6</span>     <span style="color: rgb(95,135,135)"># if you did not run covariates during indexing, set this to None</span>
 <span class="ansi-green-fg">      7</span>     covariates=covariates,
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">8</span>     entity_text_embeddings=description_embedding_store,
+<span class="ansi-green-fg">      8</span>     entity_text_embeddings=description_embedding_store,
 <span class="ansi-green-fg">      9</span>     embedding_vectorstore_key=EntityVectorStoreKey.ID,  <span style="color: rgb(95,135,135)"># if the vectorstore uses entity title as ids, set this to EntityVectorStoreKey.TITLE</span>
-<span class="ansi-green-fg">     10</span>     text_embedder=text_embedder,
+<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">10</span>     text_embedder=text_embedder,
 <span class="ansi-green-fg">     11</span>     tokenizer=tokenizer,
+<span class="ansi-green-fg">     12</span> )
 
-<span class="ansi-red-fg">NameError</span>: name 'description_embedding_store' is not defined</pre>
+<span class="ansi-red-fg">NameError</span>: name 'text_embedder' is not defined</pre>
 </div>
 </div>
 </div>

@@ -3030,9 +3030,9 @@ Report count after filtering by community level None: 10
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="build-global-context-with-dynamic-community-selection">Build global context with dynamic community selection<a class="anchor-link" href="#build-global-context-with-dynamic-community-selection">¶</a></h4><p>The goal of dynamic community selection reduce the number of community reports that need to be processed in the map-reduce operation. To that end, we take advantage of the hierachical structure of the indexed dataset. We first ask the LLM to rate how relevant each level 0 community is with respect to the user query, we then traverse down the child node(s) if the current community report is deemed relevant.</p>
-<p>You can still set a <code>COMMUNITY_LEVEL</code> to filter out lower level community reports and apply dynamic community selection on the filtered reports.</p>
-<p>Note that the dataset is quite small, with only consist of 20 communities from 2 levels (level 0 and 1). Dynamic community selection is more effective when there are large amount of content to be filtered out.</p>
+<h4 id="build-global-context-with-dynamic-community-selection">Build global context with dynamic community selection<a class="anchor-link" href="#build-global-context-with-dynamic-community-selection">¶</a></h4><p>The goal of dynamic community selection is to reduce the number of community reports processed in the map-reduce operation. To do this, we take advantage of the hierarchical structure of the indexed dataset. We first ask the LLM to rate the relevance of each level 0 community to the user query, then traverse to its child nodes if the current community report is relevant.</p>
+<p>You can still set a <code>COMMUNITY_LEVEL</code> to filter out lower-level community reports and apply dynamic community selection to the remaining reports.</p>
+<p>Note that the dataset is quite small, consisting of only 20 communities across two levels (0 and 1). Dynamic community selection is more effective when there is a large amount of content to filter out.</p>
 </div>
 </div>
 </div>
